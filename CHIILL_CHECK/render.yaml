@@ -1,0 +1,7 @@
+services:
+    - type: web
+      name: Chill Check
+      runtime: python
+      buildCommand: pip install -r requirements.txt
+      startCommand: gunicorn run:app
+      postDeployCommand: flask db upgrade # Apply database migrations
