@@ -4,4 +4,4 @@ services:
       runtime: python
       buildCommand: pip install -r requirements.txt
       startCommand: gunicorn run:app
-      postDeployCommand: echo "Running post-deploy command" # Apply database migrations
+      postDeployCommand: flask db upgrade # Apply database migrations
