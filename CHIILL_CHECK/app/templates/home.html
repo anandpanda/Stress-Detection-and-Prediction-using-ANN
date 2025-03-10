@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Chill Check</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='styles.css') }}"
+        />
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+        <script src="https://unpkg.com/lucide@latest"></script>
+    </head>
+    <body class="min-h-screen bg-black text-white">
+        <!-- Navigation -->
+        <nav class="border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <a
+                            href="{{ url_for('main.home') }}"
+                            class="flex items-center font-bold text-xl"
+                        >
+                            <span class="text-white">Chill Check</span>
+                        </a>
+
+                        <div class="hidden md:block ml-10">
+                            <div class="flex items-center space-x-4">
+                                <a
+                                    href="{{ url_for('main.home') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >Home</a
+                                >
+                                <a
+                                    href="{{ url_for('main.about_stress') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >About Stress</a
+                                >
+                                <a
+                                    href="{{ url_for('predict.predict') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >Am I Chill ?</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}">
+                            <button
+                                class="p-3 w-23 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-500 transition-colors"
+                            >
+                                Logout
+                            </button>
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}">
+                            <button
+                                class="p-3 w-23 rounded-lg bg-gray-800 text-white font-semibold hover:bg-gray-700 transition-colors"
+                            >
+                                Login
+                            </button>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 h-screen">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <a href="{{ url_for('main.about_stress') }}">
+                        <div
+                            class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-800/50 text-gray-300 mb-8"
+                        >
+                            <span>I wanna know about Stress </span>
+                            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                        </div>
+                    </a>
+
+                    <h1 class="text-6xl font-bold leading-tight mb-8">
+                        Take Control of Your Stress
+                    </h1>
+
+                    <p class="text-xl text-gray-400 mb-8">
+                        Detect and predict stress levels with cutting-edge
+                        technology. Gain insights into your well-being and take
+                        steps toward a calmer, healthier life. Our intelligent
+                        system analyzes key health indicators, helping you
+                        understand stress patterns, adopt healthier habits, and
+                        improve overall mental resilience.
+                    </p>
+
+                    <div class="flex space-x-4">
+                        <a href="{{ url_for('predict.predict') }}">
+                            <button
+                                class="px-6 py-3 rounded-full bg-white text-black font-semibold hover:bg-gray-100 transition-colors"
+                            >
+                                Get Started
+                            </button>
+                        </a>
+                        {% if current_user.is_authenticated %}
+                        <button
+                            class="px-6 py-3 rounded-full bg-gray-800 text-white font-semibold"
+                        >
+                            Hi! {{ current_user.username }} 🔥
+                        </button>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}">
+                            <button
+                                class="px-6 py-3 rounded-full bg-gray-800 text-white font-semibold hover:bg-gray-700 transition-colors"
+                            >
+                                Login
+                            </button>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="bg-gray-900 rounded-2xl p-8">
+                        <h2 class="text-2xl font-semibold mb-4">
+                            Stay Calm, Keep Stress Away
+                        </h2>
+                        <p class="text-gray-400">
+                            Detect, prevent, and manage stress with us.
+                        </p>
+
+                        <!-- Landing Page Image -->
+                        <img
+                            class="rounded-2xl mt-4"
+                            src="{{ url_for('static', filename='images/heroo.jpg') }}"
+                            alt=""
+                        />
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8"
+                >
+                    <!-- About Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Chill Check</h3>
+                        <p class="text-gray-400">
+                            Chill Check helps you detect and manage stress
+                            effectively. Take control of your well-being with
+                            actionable insights and personalized recommendations
+                            for a healthier, calmer life.
+                        </p>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Quick Links</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a
+                                    href="{{ url_for('main.home') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Home</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="{{ url_for('main.about_stress') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >About Stress</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="{{ url_for('predict.predict') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Am I Chill?</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="mailto:anand612p@gmail.com"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Contact Us - anand612p@gmail.com</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Follow Us</h3>
+                        <div class="flex space-x-4">
+                            <a
+                                href="https://github.com/anandpanda/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="github" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="mailto:anand612p@gmail.com"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="mail" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/anand-panda/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="linkedin" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="https://www.instagram.com/_anand.panda_/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="instagram" class="h-6 w-6"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-gray-800 mt-4 pt-4 text-center">
+                    <p class="text-gray-400">
+                        &copy; 2025 Chill Check. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Initialize Lucide Icons -->
+        <script>
+            lucide.createIcons();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>About Stress</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='styles.css') }}"
+        />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="min-h-screen bg-black text-white">
+        <!-- Navigation -->
+        <nav class="border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <a
+                            href="{{ url_for('main.home') }}"
+                            class="flex items-center font-bold text-xl"
+                        >
+                            <span class="text-white">Chill Check</span>
+                        </a>
+
+                        <div class="hidden md:block ml-10">
+                            <div class="flex items-center space-x-4">
+                                <a
+                                    href="{{ url_for('main.home') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >Home</a
+                                >
+                                <a
+                                    href="{{ url_for('main.about_stress') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >About Stress</a
+                                >
+                                <a
+                                    href="{{ url_for('predict.predict') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >Am I Chill ?</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}">
+                            <button
+                                class="p-3 w-23 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-500 transition-colors"
+                            >
+                                Logout
+                            </button>
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}">
+                            <button
+                                class="p-3 w-23 rounded-lg bg-gray-800 text-white font-semibold hover:bg-gray-700 transition-colors"
+                            >
+                                Login
+                            </button>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- About Stress Section -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div
+                class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-4 items-center"
+            >
+                <!-- Left Column: About Stress Content -->
+                <div>
+                    <a href="{{ url_for('predict.predict') }}">
+                        <div
+                            class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-800/50 text-gray-300 mb-8"
+                        >
+                            <span>Tell me I am Chill</span>
+                            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                        </div>
+                    </a>
+
+                    <h1 class="text-6xl font-bold leading-tight mb-8">
+                        What is Stress ?
+                    </h1>
+
+                    <p class="text-xl text-gray-400 mb-8">
+                        Stress is a natural human response to challenges or
+                        changes. It can be positive, helping you stay alert and
+                        motivated, but it becomes harmful when it persists
+                        without relief. Stress affects both the body and mind,
+                        and managing it is crucial for overall well-being.
+                    </p>
+
+                    <h2 class="text-4xl font-bold leading-tight mb-8">
+                        Types of Stress
+                    </h2>
+
+                    <div class="pl-6">
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Acute Stress:</span
+                            >
+                            Short-term stress from immediate challenges (e.g., a
+                            work deadline or an argument). It's common and
+                            usually resolves quickly.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Chronic Stress:</span
+                            >
+                            Long-term stress lasting weeks or months, often
+                            caused by ongoing issues like financial problems or
+                            relationship struggles. It can lead to serious
+                            health complications if not managed.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-8">
+                            <span class="text-gray-200 font-semibold"
+                                >Episodic Acute Stress:</span
+                            >
+                            Frequent episodes of acute stress, often seen in
+                            high-pressure jobs or lifestyles.
+                        </p>
+                    </div>
+
+                    <h2 class="text-4xl font-bold leading-tight mb-8">
+                        Symptoms and Causes of Stress
+                    </h2>
+
+                    <p class="text-xl text-gray-400 mb-4">
+                        Physically, stress may cause headaches, chest pain,
+                        exhaustion, muscle tension, digestive issues, and a
+                        weakened immune system. Emotionally, it can trigger
+                        anxiety, irritability, depression, and sadness. Over
+                        time, chronic stress may lead to unhealthy behaviors
+                        like overeating, substance abuse, or compulsive actions
+                        such as excessive shopping or internet use. Stress can
+                        even cause stress rashes, which appear as itchy, raised
+                        bumps on the skin, particularly in women and individuals
+                        in their 20s to 40s.
+                    </p>
+                    <p class="text-xl text-gray-400 mb-8">
+                        Stress can be triggered by both major life events—like
+                        marriage, divorce, or losing a loved one—and everyday
+                        challenges, such as work pressure, financial struggles,
+                        or traffic jams. Acute stress is short-term, often
+                        caused by situations like preparing for a test or having
+                        an argument, while chronic stress stems from ongoing
+                        issues like long-term financial problems or relationship
+                        difficulties.
+                    </p>
+
+                    <!-- Managing and Preventing Stress Section -->
+                    <h2 class="text-4xl font-bold leading-tight mb-8">
+                        Managing and Preventing Stress
+                    </h2>
+
+                    <p class="text-xl text-gray-400 mb-4">
+                        While stress is unavoidable, there are effective ways to
+                        manage it. Focus on physical well-being—regular
+                        exercise, even a short walk, can boost your mood and
+                        reduce stress. Reflect on daily accomplishments, set
+                        achievable goals, and seek support from a therapist if
+                        needed.
+                    </p>
+                    <p class="text-xl text-gray-400 mb-4">
+                        To prevent stress, practice relaxation techniques like
+                        meditation, yoga, or deep breathing. Maintain a healthy
+                        lifestyle by eating well, staying active, and getting
+                        enough sleep. Cultivate gratitude, let go of unnecessary
+                        worries, and learn to say “no” to extra responsibilities
+                        when overwhelmed.
+                    </p>
+                    <p class="text-xl text-gray-400 mb-6">
+                        Stay connected with supportive friends and family. A
+                        strong support network provides emotional comfort and
+                        practical help, making it easier to navigate challenges
+                        and maintain balance.
+                    </p>
+
+                    <!-- Key Strategies to Manage Stress -->
+                    <h3 class="text-2xl font-bold mb-4">
+                        Key Strategies to Manage Stress
+                    </h3>
+
+                    <div class="pl-6">
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Physical Activity:</span
+                            >
+                            Engage in regular exercise, even a short walk, to
+                            boost your mood and reduce stress.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Reflect Daily:</span
+                            >
+                            At the end of each day, focus on what you've
+                            accomplished rather than what's left undone.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Set Goals:</span
+                            >
+                            Break tasks into daily, weekly, and monthly goals to
+                            feel more in control.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-6">
+                            <span class="text-gray-200 font-semibold"
+                                >Seek Support:</span
+                            >
+                            Talk to a therapist or healthcare provider if stress
+                            becomes overwhelming.
+                        </p>
+                    </div>
+
+                    <!-- Ways to Prevent Stress -->
+                    <h3 class="text-2xl font-bold mb-4">
+                        Ways to Prevent Stress
+                    </h3>
+
+                    <div class="pl-6">
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Relaxation Techniques:</span
+                            >
+                            Practice meditation, yoga, tai chi, or deep
+                            breathing exercises.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Healthy Lifestyle:</span
+                            >
+                            Eat well, stay active, and get enough sleep to
+                            strengthen your stress resilience.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Positive Mindset:</span
+                            >
+                            Practice gratitude and focus on the good in your
+                            life.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Let Go of Control:</span
+                            >
+                            Accept that you can't control everything and avoid
+                            unnecessary worries.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-2">
+                            <span class="text-gray-200 font-semibold"
+                                >Learn to Say No:</span
+                            >
+                            Avoid taking on extra responsibilities when you're
+                            already stressed.
+                        </p>
+                        <p class="text-xl text-gray-400 mb-8">
+                            <span class="text-gray-200 font-semibold"
+                                >Stay Connected:</span
+                            >
+                            Build a support network of friends, family, or
+                            neighbors for emotional and practical help.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Column: Images -->
+                <div class="relative h-full flex flex-col">
+                    <div class="bg-gray-900 rounded-2xl p-8 mt-30">
+                        <img
+                            class="rounded-2xl"
+                            src="{{ url_for('static', filename='images/aboutp2.webp') }}"
+                        />
+                    </div>
+                    <div class="bg-gray-900 rounded-2xl p-8 mt-60">
+                        <img
+                            class="rounded-2xl"
+                            src="{{ url_for('static', filename='images/aboutp1.jpg') }}"
+                        />
+                    </div>
+                </div>
+
+                <!-- New Row: Take Control of Your Stress -->
+                <div class="col-span-full">
+                    <h2 class="text-5xl font-bold leading-tight mb-8">
+                        Take Control of Your Stress
+                    </h2>
+                    <p class="text-xl text-gray-400 mb-8">
+                        Understanding stress is the first step toward managing
+                        it. Use our app to detect and predict stress levels, and
+                        take actionable steps toward a healthier, calmer life.
+                        Remember, you are not alone in this journey. Reach out
+                        for support when needed, and make self-care a priority.
+                        Together, we can build a more resilient and balanced
+                        life.
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8"
+                >
+                    <!-- About Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Chill Check</h3>
+                        <p class="text-gray-400">
+                            Chill Check helps you detect and manage stress
+                            effectively. Take control of your well-being with
+                            actionable insights and personalized recommendations
+                            for a healthier, calmer life.
+                        </p>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Quick Links</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a
+                                    href="{{ url_for('main.home') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Home</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="{{ url_for('main.about_stress') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >About Stress</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="{{ url_for('predict.predict') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Am I Chill?</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="mailto:anand612p@gmail.com"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Contact Us - anand612p@gmail.com</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Follow Us</h3>
+                        <div class="flex space-x-4">
+                            <a
+                                href="https://github.com/anandpanda/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="github" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="mailto:anand612p@gmail.com"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="mail" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/anand-panda/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="linkedin" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="https://www.instagram.com/_anand.panda_/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="instagram" class="h-6 w-6"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-gray-800 mt-4 pt-4 text-center">
+                    <p class="text-gray-400">
+                        &copy; 2025 Chill Check. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Initialize Lucide Icons -->
+        <script>
+            lucide.createIcons();
+        </script>
+    </body>
+</html>
