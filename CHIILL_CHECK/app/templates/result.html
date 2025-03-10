@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Prediction Result</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='styles.css') }}"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="min-h-screen bg-black text-white">
+        <!-- Navigation -->
+        <nav class="border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <a
+                            href="{{ url_for('main.home') }}"
+                            class="flex items-center font-bold text-xl"
+                        >
+                            <span class="text-white">Chill Check</span>
+                        </a>
+
+                        <div class="hidden md:block ml-10">
+                            <div class="flex items-center space-x-4">
+                                <a
+                                    href="{{ url_for('main.home') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >Home</a
+                                >
+                                <a
+                                    href="{{ url_for('main.about_stress') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >About Stress</a
+                                >
+                                <a
+                                    href="{{ url_for('predict.predict') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >Am I Chill ?</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}">
+                            <button
+                                class="p-3 w-23 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-500 transition-colors"
+                            >
+                                Logout
+                            </button>
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}">
+                            <button
+                                class="p-3 w-23 rounded-lg bg-gray-800 text-white font-semibold hover:bg-gray-700 transition-colors"
+                            >
+                                Login
+                            </button>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main
+            class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] py-20"
+        >
+            <div class="bg-gray-900 rounded-2xl p-8">
+                <div class="text-center">
+                    <h1 class="text-4xl font-bold mb-4 {% if result_message == 'Stressed' %}text-orange-500{% else %}text-emerald-500{% endif %}">
+                        {{ result_message }}
+                    </h1>
+                    <p class="text-gray-400 text-lg">
+                        Stay calm and follow the advice below and let's reduce
+                        the red area.
+                    </p>
+                </div>
+
+                <!-- Stress Level History Chart -->
+                <div class="mt-8 p-6 bg-gray-800 rounded-lg">
+                    <h3 class="text-2xl font-semibold mb-4">
+                        Your Stress Level Over Time
+                    </h3>
+                    <canvas id="stressChart"></canvas>
+                </div>
+
+                <!-- Personalized Suggestions -->
+                <div
+                    class="mt-8 p-6 bg-gray-800 rounded-lg border-l-4 {% if result_message == 'Stressed' %}border-orange-500{% else %}border-emerald-500{% endif %}"
+                >
+                    <h3 class="text-2xl font-semibold mb-4">
+                        Analysis and Suggestions:
+                    </h3>
+                    {{ additional_info | safe }}
+                </div>
+
+                <!-- Go Back Button -->
+                <a
+                    href="{{ url_for('predict.predict') }}"
+                    class="mt-8 block w-full px-6 py-3 text-white font-semibold rounded-lg text-center {% if result_message == 'Stressed' %}bg-orange-500 hover:bg-orange-600{% else %}bg-emerald-500 hover:bg-emerald-600{% endif %} transition-colors"
+                    >Go Back to Form</a
+                >
+            </div>
+        </main>
+
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8"
+                >
+                    <!-- About Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Chill Check</h3>
+                        <p class="text-gray-400">
+                            Chill Check helps you detect and manage stress
+                            effectively. Take control of your well-being with
+                            actionable insights and personalized recommendations
+                            for a healthier, calmer life.
+                        </p>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Quick Links</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a
+                                    href="{{ url_for('main.home') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Home</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="{{ url_for('main.about_stress') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >About Stress</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="{{ url_for('predict.predict') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Am I Chill?</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="mailto:anand612p@gmail.com"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Contact Us - anand612p@gmail.com</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Follow Us</h3>
+                        <div class="flex space-x-4">
+                            <a
+                                href="https://github.com/anandpanda/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="github" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="mailto:anand612p@gmail.com"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="mail" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/anand-panda/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="linkedin" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="https://www.instagram.com/_anand.panda_/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="instagram" class="h-6 w-6"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-gray-800 mt-4 pt-4 text-center">
+                    <p class="text-gray-400">
+                        &copy; 2025 Chill Check. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById("stressChart").getContext("2d");
+
+            const labels = JSON.parse(
+                '{{ stress_trend | map(attribute="timestamp") | list | tojson | safe }}'
+            );
+            const data = JSON.parse(
+                '{{ stress_trend | map(attribute="stress_level") | list | tojson | safe }}'
+            );
+
+            const stressData = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Stress Level (1 = Stressed, 0 = Not Stressed)",
+                        data: data,
+                        backgroundColor: "rgba(255, 99, 132, 0.5)",
+                        borderColor: "rgba(255, 99, 132, 1)",
+                        borderWidth: 2,
+                        tension: 0.4, // Add this for a smooth curve (0 = straight, 1 = max curve)
+                        fill: true, // Optional: Fill the area under the curve
+                    },
+                ],
+            };
+
+            new Chart(ctx, {
+                type: "line",
+                data: stressData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: "top",
+                        },
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false, // Hide x-axis grid lines
+                            },
+                        },
+                        y: {
+                            grid: {
+                                color: "rgba(0, 0, 0, 0.1)", // Light gray grid lines for y-axis
+                            },
+                        },
+                    },
+                },
+            });
+        });
+    </script>
+</html>

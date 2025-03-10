@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Predict</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='styles.css') }}"
+        />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="min-h-screen bg-black text-white">
+        <!-- Navigation -->
+        <nav class="border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <a
+                            href="{{ url_for('main.home') }}"
+                            class="flex items-center font-bold text-xl"
+                        >
+                            <span class="text-white">Chill Check</span>
+                        </a>
+
+                        <div class="hidden md:block ml-10">
+                            <div class="flex items-center space-x-4">
+                                <a
+                                    href="{{ url_for('main.home') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >Home</a
+                                >
+                                <a
+                                    href="{{ url_for('main.about_stress') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >About Stress</a
+                                >
+                                <a
+                                    href="{{ url_for('predict.predict') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >Am I Chill ?</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}">
+                            <button
+                                class="p-3 w-23 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-500 transition-colors"
+                            >
+                                Logout
+                            </button>
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}">
+                            <button
+                                class="p-3 w-23 rounded-lg bg-gray-800 text-white font-semibold hover:bg-gray-700 transition-colors"
+                            >
+                                Login
+                            </button>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main
+            class="flex items-center justify-center min-h-[calc(100vh-4rem)] my-10"
+        >
+            <div class="bg-gray-900 rounded-2xl p-8 w-full max-w-lg">
+                <h2 class="text-2xl font-bold text-center mb-1">
+                    Enter your Details
+                </h2>
+                <p
+                    class="text-small text-gray-500 font-semibold text-center mb-6"
+                >
+                    The ranges represent normal ranges and not limits.
+                </p>
+                <form
+                    action="{{ url_for('predict.predict') }}"
+                    method="POST"
+                    class="space-y-6"
+                    onsubmit="handleSubmit(event)"
+                >
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-400"
+                                >Snoring Rate (%)</label
+                            >
+                            <input
+                                type="number"
+                                name="snoring_rate"
+                                min="0"
+                                max="100"
+                                step="1"
+                                placeholder="0-100"
+                                required
+                                class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-400"
+                                >Respiratory Rate (breaths/min)</label
+                            >
+                            <input
+                                type="number"
+                                name="respiratory_rate"
+                                step="0.1"
+                                placeholder="12-20"
+                                required
+                                class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-400"
+                                >Body Temperature (°F)</label
+                            >
+                            <input
+                                type="number"
+                                name="body_temperature"
+                                step="0.1"
+                                placeholder="95-99.5"
+                                required
+                                class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-400"
+                                >Limb Movement</label
+                            >
+                            <input
+                                type="number"
+                                name="limb_movement"
+                                min="0"
+                                step="0.1"
+                                placeholder="0-20"
+                                required
+                                class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-400"
+                                >Blood Oxygen (%)</label
+                            >
+                            <input
+                                type="number"
+                                name="blood_oxygen"
+                                max="100"
+                                step="0.1"
+                                placeholder="95-100"
+                                required
+                                class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-400"
+                                >Eye Movement (%)</label
+                            >
+                            <input
+                                type="number"
+                                name="eye_movement"
+                                max="100"
+                                step="0.1"
+                                placeholder="50-100"
+                                required
+                                class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-400"
+                                >Sleep Hours</label
+                            >
+                            <input
+                                type="number"
+                                name="sleep_hours"
+                                step="0.1"
+                                placeholder="4-10"
+                                required
+                                class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-400"
+                                >Heart Rate (bpm)</label
+                            >
+                            <input
+                                type="number"
+                                name="heart_rate"
+                                step="1"
+                                placeholder="60-100"
+                                required
+                                class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            />
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        id="submit-btn"
+                        class="w-full px-6 py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors"
+                    >
+                        Am I Stressed?
+                    </button>
+                </form>
+            </div>
+        </main>
+
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8"
+                >
+                    <!-- About Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Chill Check</h3>
+                        <p class="text-gray-400">
+                            Chill Check helps you detect and manage stress
+                            effectively. Take control of your well-being with
+                            actionable insights and personalized recommendations
+                            for a healthier, calmer life.
+                        </p>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Quick Links</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a
+                                    href="{{ url_for('main.home') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Home</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="{{ url_for('main.about_stress') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >About Stress</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="{{ url_for('predict.predict') }}"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Am I Chill?</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="mailto:anand612p@gmail.com"
+                                    class="text-gray-400 hover:text-white transition-colors"
+                                    >Contact Us - anand612p@gmail.com</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold">Follow Us</h3>
+                        <div class="flex space-x-4">
+                            <a
+                                href="https://github.com/anandpanda/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="github" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="mailto:anand612p@gmail.com"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="mail" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/anand-panda/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="linkedin" class="h-6 w-6"></i>
+                            </a>
+                            <a
+                                href="https://www.instagram.com/_anand.panda_/"
+                                class="text-gray-400 hover:text-white transition-colors"
+                            >
+                                <i data-lucide="instagram" class="h-6 w-6"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-gray-800 mt-4 pt-4 text-center">
+                    <p class="text-gray-400">
+                        &copy; 2025 Chill Check. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Initialize Lucide Icons -->
+        <script>
+            lucide.createIcons();
+        </script>
+
+        <script>
+            function handleSubmit(event) {
+                const submitButton = document.getElementById("submit-btn");
+                submitButton.disabled = true;
+                submitButton.innerHTML = `
+                    <svg class="animate-spin h-5 w-5 text-white inline mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                    Analyzing your data...
+                `;
+                submitButton.classList.add("opacity-70", "cursor-not-allowed");
+            }
+        </script>
+    </body>
+</html>
