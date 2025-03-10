@@ -41,6 +41,11 @@
                                     class="text-gray-300 hover:text-white px-3 py-2"
                                     >Am I Chill ?</a
                                 >
+                                <a
+                                    href="{{ url_for('result.result') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >History</a
+                                >
                             </div>
                         </div>
                     </div>
@@ -68,6 +73,7 @@
             </div>
         </nav>
 
+        <!-- Form -->
         <main
             class="flex items-center justify-center min-h-[calc(100vh-4rem)] my-10"
         >
@@ -259,9 +265,9 @@
                             </li>
                             <li>
                                 <a
-                                    href="mailto:anand612p@gmail.com"
+                                    href="{{ url_for('result.result') }}"
                                     class="text-gray-400 hover:text-white transition-colors"
-                                    >Contact Us - anand612p@gmail.com</a
+                                    >History</a
                                 >
                             </li>
                         </ul>

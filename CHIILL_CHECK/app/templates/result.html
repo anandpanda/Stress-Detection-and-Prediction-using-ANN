@@ -42,6 +42,11 @@
                                     class="text-gray-300 hover:text-white px-3 py-2"
                                     >Am I Chill ?</a
                                 >
+                                <a
+                                    href="{{ url_for('result.result') }}"
+                                    class="text-gray-300 hover:text-white px-3 py-2"
+                                    >History</a
+                                >
                             </div>
                         </div>
                     </div>
@@ -69,12 +74,15 @@
             </div>
         </nav>
 
+        <!-- Main Content -->
         <main
             class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] py-20"
         >
             <div class="bg-gray-900 rounded-2xl p-8">
                 <div class="text-center">
-                    <h1 class="text-4xl font-bold mb-4 {% if result_message == 'Stressed' %}text-orange-500{% else %}text-emerald-500{% endif %}">
+                    <h1
+                        class="text-4xl font-bold mb-4 {% if result_message == 'Stressed' %}text-orange-500{% else %}text-emerald-500{% endif %}"
+                    >
                         {{ result_message }}
                     </h1>
                     <p class="text-gray-400 text-lg">
@@ -101,11 +109,11 @@
                     {{ additional_info | safe }}
                 </div>
 
-                <!-- Go Back Button -->
+                <!-- Know more button -->
                 <a
-                    href="{{ url_for('predict.predict') }}"
+                    href="{{ url_for('main.about_stress') }}"
                     class="mt-8 block w-full px-6 py-3 text-white font-semibold rounded-lg text-center {% if result_message == 'Stressed' %}bg-orange-500 hover:bg-orange-600{% else %}bg-emerald-500 hover:bg-emerald-600{% endif %} transition-colors"
-                    >Go Back to Form</a
+                    >Know more about Stress</a
                 >
             </div>
         </main>
@@ -153,9 +161,9 @@
                             </li>
                             <li>
                                 <a
-                                    href="mailto:anand612p@gmail.com"
+                                    href="{{ url_for('result.result') }}"
                                     class="text-gray-400 hover:text-white transition-colors"
-                                    >Contact Us - anand612p@gmail.com</a
+                                    >History</a
                                 >
                             </li>
                         </ul>
@@ -202,6 +210,11 @@
             </div>
         </footer>
     </body>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

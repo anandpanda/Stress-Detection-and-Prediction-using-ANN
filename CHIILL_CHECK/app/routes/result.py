@@ -32,6 +32,8 @@ def result():
     latest_prediction = user_predictions[-1] if user_predictions else None
     result_message = latest_prediction.result if latest_prediction else "No prediction found."
 
+    print(f"Latest Prediction: {result_message}")
+
     # Prepare AI prompt based on stress trend
     stress_summary = (
         "You are a mental wellness expert providing stress management guidance.\n\n"
@@ -65,7 +67,7 @@ def result():
     print(f"AI Suggestions: {ai_suggestions}")
 
     # Format AI response in Python
-    formatted_suggestions = format_suggestions(ai_suggestions, latest_prediction.result)
+    formatted_suggestions = format_suggestions(ai_suggestions, latest_prediction)
 
     return render_template(
         'result.html',
@@ -73,7 +75,6 @@ def result():
         additional_info=formatted_suggestions,
         stress_trend=stress_trend  # Send trend data to the frontend
     )
-
 
 # Generic response to use when AI fails to generate suggestions
 GENERIC_RESPONSE = """
@@ -111,10 +112,10 @@ def format_suggestions(ai_response, latest_status):
     """ Parses AI response and applies Tailwind styling dynamically. """
 
     # Add Tailwind CSS classes based on the latest status
-    suggestion_class = "text-amber-500" if latest_status == "Stressed" else "text-teal-500"
+    suggestion_class = "text-amber-500" if latest_status and latest_status.result == "Stressed" else "text-teal-500"
 
     # Check if AI response is empty or unreliable
-    if not ai_response.strip() or "### END ANALYSIS ###" not in ai_response:
+    if not ai_response.strip() or "### END ANALYSIS ###" not in ai_response or not latest_status:
         print("⚠️ AI response is unreliable. Using fallback generic response.")
         return GENERIC_RESPONSE.format(suggestion_class=suggestion_class)  # Use the predefined generic response
     
