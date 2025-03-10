@@ -3,5 +3,4 @@ services:
       name: Chill Check
       runtime: python
       buildCommand: pip install -r requirements.txt
-      startCommand: gunicorn run:app
       startCommand: flask db upgrade && gunicorn run:app
