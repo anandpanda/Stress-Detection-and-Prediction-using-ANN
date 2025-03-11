@@ -6,9 +6,11 @@ from app.models import Prediction
 from app import db
 from app.utils.preprocessing import preprocess_input
 from tensorflow.keras.models import load_model  # Import the model loader
+from config import Config
 
 # Load the trained ANN model
-model_path = os.path.join(os.path.dirname(__file__), '../utils/stress_detection_model.keras')
+model_path_wrt_CHILL_CHECK = Config.MODEL_PATH
+model_path = os.path.join(os.path.dirname(__file__), "..", "..", model_path_wrt_CHILL_CHECK)
 model = load_model(model_path)  # Initialize the model
 
 predict_bp = Blueprint('predict', __name__)

@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 # Step 4: Set up the database
 echo "\n\nSetting up the database..."
-cd CHIILL_CHECK
+cd CHILL_CHECK
 flask db upgrade
 
 # Step 5: Run the app
