@@ -51,7 +51,7 @@
                 <p class="text-sm text-gray-400 text-center">
                     Don't have an account?
                     <a
-                        href="{{ url_for('auth.signup') }}"
+                        href="{{ url_for('auth.signup', next=next) }}"
                         class="text-emerald-500 hover:underline"
                         >Sign Up</a
                     >

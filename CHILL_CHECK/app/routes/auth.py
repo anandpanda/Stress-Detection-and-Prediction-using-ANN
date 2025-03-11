@@ -36,6 +36,7 @@ def signup():
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
+        next_page = request.form.get('next')  # Get the next parameter from the form
 
         # Check if user already exists
         user = User.query.filter_by(email=email).first()
@@ -57,10 +58,11 @@ def signup():
         flash('Registration successful! You are now logged in.', 'success')
 
         # Redirect to the next page if available
-        next_page = request.args.get('next')
         return redirect(next_page or url_for('main.home'))
 
-    return render_template('signup.html')
+    # Pass the next parameter to the template
+    next_page = request.args.get('next')
+    return render_template('signup.html', next=next_page)
 
 @auth_bp.route('/logout')
 def logout():

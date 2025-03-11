@@ -19,6 +19,7 @@
                 Create Your Account
             </h2>
             <form method="POST" class="space-y-6">
+                <input type="hidden" name="next" value="{{ next }}" />
                 <div>
                     <label class="block text-sm font-medium text-gray-400"
                         >Username</label
@@ -76,7 +77,7 @@
                 <p class="text-sm text-gray-400 text-center">
                     Already have an account?
                     <a
-                        href="{{ url_for('auth.login') }}"
+                        href="{{ url_for('auth.login', next=next) }}"
                         class="text-emerald-500 hover:underline"
                         >Log In</a
                     >
