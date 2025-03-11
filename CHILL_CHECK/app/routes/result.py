@@ -32,8 +32,6 @@ def result():
     latest_prediction = user_predictions[-1] if user_predictions else None
     result_message = latest_prediction.result if latest_prediction else "No prediction found."
 
-    print(f"Latest Prediction: {result_message}")
-
     # Prepare AI prompt based on stress trend
     stress_summary = (
         "You are a mental wellness expert providing stress management guidance.\n\n"
@@ -63,8 +61,6 @@ def result():
 
     # Generate AI suggestions
     ai_suggestions = generate_stress_suggestions(stress_summary)
-
-    print(f"AI Suggestions: {ai_suggestions}")
 
     # Format AI response in Python
     formatted_suggestions = format_suggestions(ai_suggestions, latest_prediction)

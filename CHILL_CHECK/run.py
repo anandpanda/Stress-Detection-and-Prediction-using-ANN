@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PORT=os.getenv("PORT", 10000)
+PORT = int(os.getenv("FLASK_RUN_PORT", 10000))
 
 app = create_app()
 
