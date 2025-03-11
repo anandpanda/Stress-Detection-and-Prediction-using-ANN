@@ -1,25 +1,22 @@
 #!/bin/bash
 
-# Script to set up the Flask app
+echo "🚀 Setting up Chill Check..."
 
-# Step 1: Create a virtual environment
-echo "\n\Creating a virtual environment..."
+# Step 1: Create & activate a virtual environment
+echo -e "\n\n📦 Creating virtual environment..."
 python3.11 -m venv venv
-
-# Step 2: Activate the virtual environment
-echo "\n\nActivating the virtual environment..."
-source venv/Scripts/activate  # On macOS/Linux
+source venv/Scripts/activate
 # venv\Scripts\activate    # On Windows (uncomment for Windows)
 
-# Step 3: Install dependencies
-echo "\n\nInstalling dependencies..."
-pip install -r requirements.txt
+# Step 2: Install dependencies
+echo -e "\n\n📦 Installing dependencies..."
+pip install --no-cache-dir -r requirements.txt
 
-# Step 4: Set up the database
-echo "\n\nSetting up the database..."
+# Step 3: Apply database migrations
+echo -e "\n\n📊 Applying database migrations..."
 cd CHILL_CHECK
 flask db upgrade
 
-# Step 5: Run the app
-echo "\n\nThe app has been set up."
+# Step 4: Run the Flask app
+echo -e "\n\n✅ Setup complete! Starting the application..."
 flask run
